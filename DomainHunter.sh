@@ -126,10 +126,29 @@ resolve_subdomains() {
 
 check_live_http() {
     prompt_domain; hr
-    info "Checking live HTTP(s)..."
-    httpx -l "$(subdomains_file)" -silent -status-code -mc 200,301,302 | tee "$(live_file)"
-    ok "Live hosts saved: $(live_file)"
+    info "🔍 Checking for live HTTP(s) servers..."
+
+    # Validate subdomains file
+    if [[ ! -s "$(subdomains_file)" ]]; then
+        error "No subdomains found! Run subdomain enumeration first."
+        return 1
+    fi
+
+    # Run httpx with better output
+    httpx -l "$(subdomains_file)" \
+        -title -status-code -tech-detect -web-server -follow-redirects -timeout 5 -threads 50 \
+        -mc 200,301,302,307,401,403 \
+        -silent | tee "$(live_file)"
+
+    if [[ -s "$(live_file)" ]]; then
+        ok "✅ Live hosts saved to: $(live_file)"
+        info "📊 Summary of results:"
+        awk '{print "• " $0}' "$(live_file)"
+    else
+        warn "⚠ No live hosts found."
+    fi
 }
+
 
 screenshot_hosts() {
     prompt_domain; hr
