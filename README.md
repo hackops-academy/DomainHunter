@@ -46,24 +46,7 @@ cd DomainHunter
 chmod +x DomainHunter.sh
 ```
 
-## Installing Dependencies
 
-**Kali(APT)**
-```bash
-sudo apt update && sudo apt install -y subfinder httpx-toolkit dnsx naabu whois dnsutils jq nmap
-```
-
-**GO(Latest Builds)
-```bash
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
-go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
-go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
-go install -v github.com/projectdiscovery/katana/cmd/katana@latest
-go install -v github.com/sensepost/gowitness@latest
-go install -v github.com/tomnomnom/waybackurls@latest
-go install -v github.com/tomnomnom/anew@latest
-```
 
 **Termux**
 ```bash
