@@ -250,15 +250,22 @@ collect_endpoints_and_secrets() {
   # Secrets regex (lightweight patterns)
   hr; info "Scanning endpoints for potential secrets (regex-based)"
   : > "$(secrets_file)"
-  local re=(
-    'AKIA[0-9A-Z]{16}'                                # AWS Access Key ID
-    'AIza[0-9A-Za-z\-_]{35}'                          # Google API Key
-    'sk_live_[0-9a-zA-Z]{24,}'                        # Stripe Live Key
-    'xox[baprs]-[0-9A-Za-z\-]+'                       # Slack Token
-    'facebook[\s\S]*?['\''\"][0-9a-f]{32}['\''\"]' # FB app secrets (loose)
-    'secret[_-]?key["\'"\s:=]+[0-9A-Za-z\-_/]{12,}'  # generic "secret key"
-    'api[_-]?key["\'"\s:=]+[0-9A-Za-z\-_/]{12,}'     # generic api key
-  )
+  local re
+re[0]='AKIA[0-9A-Z]{16}'
+re[1]='AIza[0-9A-Za-z\-_]{35}'
+re[2]='sk_live_[0-9a-zA-Z]{24,}'
+re[3]='xox[baprs]-[0-9A-Za-z\-]+'
+re[4]='facebook[\s\S]*?[\'"][0-9a-f]{32}[\'"]'
+re[5]='secret[_-]?key["\'"\s:=]+[0-9A-Za-z\-_/]{12,}'
+re[6]='api[_-]?key["\'"\s:=]+[0-9A-Za-z\-_/]{12,}'
+
+for r in "${re[@]}"; do
+    if [[ -n "$body" ]] && [[ "$body" =~ $r ]]; then
+        printf "[HIT] %s :: %s\n" "$url" "${BASH_REMATCH[0]}" | tee -a "$(secrets_file)"
+    fi
+done
+
+
   if [[ -s "$(endpoints_file)" ]]; then
     while read -r url; do
       # Fetch only small text assets for speed
