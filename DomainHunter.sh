@@ -238,8 +238,11 @@ collect_endpoints_and_secrets() {
   if [[ ! -s "$live" ]]; then err "Missing live hosts. Run option 2 first."; return 1; fi
   : > "$(endpoints_file)"
   cut -d ' ' -f1 "$live" > "${WORKDIR}/_urls.txt"
+
+  # Crawl endpoints
   if have katana; then
-    katana -list "${WORKDIR}/_urls.txt" -silent -em js,json,txt -jc -aff -kf -fx | sort -u | tee -a "$(endpoints_file)"
+    katana -list "${WORKDIR}/_urls.txt" -silent -em js,json,txt -jc -aff -kf -fx \
+      | sort -u | tee -a "$(endpoints_file)"
   fi
   if have waybackurls; then
     cat "${WORKDIR}/_urls.txt" | waybackurls | sort -u | tee -a "$(endpoints_file)"
@@ -247,40 +250,32 @@ collect_endpoints_and_secrets() {
   sort -u "$(endpoints_file)" -o "$(endpoints_file)"
   ok "Saved endpoints: $(endpoints_file)"
 
-  # Secrets regex (lightweight patterns)
+  # Secrets regex (safe array)
   hr; info "Scanning endpoints for potential secrets (regex-based)"
   : > "$(secrets_file)"
-  local re
-re[0]='AKIA[0-9A-Z]{16}'
-re[1]='AIza[0-9A-Za-z\-_]{35}'
-re[2]='sk_live_[0-9a-zA-Z]{24,}'
-re[3]='xox[baprs]-[0-9A-Za-z\-]+'
-re[4]='facebook[\s\S]*?[\'"][0-9a-f]{32}[\'"]'
-re[5]='secret[_-]?key["\'"\s:=]+[0-9A-Za-z\-_/]{12,}'
-re[6]='api[_-]?key["\'"\s:=]+[0-9A-Za-z\-_/]{12,}'
-
-for r in "${re[@]}"; do
-    if [[ -n "$body" ]] && [[ "$body" =~ $r ]]; then
-        printf "[HIT] %s :: %s\n" "$url" "${BASH_REMATCH[0]}" | tee -a "$(secrets_file)"
-    fi
-done
-
+  declare -a re=(
+    'AKIA[0-9A-Z]{16}'
+    'AIza[0-9A-Za-z_-]{35}'
+    'sk_live_[0-9a-zA-Z]{24,}'
+    'xox[baprs]-[0-9A-Za-z-]+'
+    'facebook[\s\S]*?[\'"][0-9a-f]{32}[\'"]'
+    'secret[_-]?key["'\''\s:=]+[0-9A-Za-z\-_/.]{12,}'
+    'api[_-]?key["'\''\s:=]+[0-9A-Za-z\-_/.]{12,}'
+  )
 
   if [[ -s "$(endpoints_file)" ]]; then
     while read -r url; do
-      # Fetch only small text assets for speed
       body=$(curl -m 10 -L -s "$url" | sed -n '1,400p' || true)
       for r in "${re[@]}"; do
-        if [[ -n "$body" ]]; then
-          if [[ "$body" =~ $r ]]; then
-            printf "[HIT] %s :: %s\n" "$url" "${BASH_REMATCH[0]}" | tee -a "$(secrets_file)"
-          fi
+        if [[ -n "$body" && "$body" =~ $r ]]; then
+          printf "[HIT] %s :: %s\n" "$url" "${BASH_REMATCH[0]}" | tee -a "$(secrets_file)"
         fi
       done
     done < "$(endpoints_file)"
   fi
   ok "Secret scan complete. Potential matches: $(secrets_file)"
 }
+
 
 fast_port_scan() {
   prompt_domain
@@ -302,18 +297,19 @@ fast_port_scan() {
   naabu -list "$(ips_file)" -top-ports 1000 -rate 1000 -silent | tee "$(ports_file)"
   ok "Saved open ports: $(ports_file)"
 
-  if have nmap; then
-    echo -en "${YELLOW}Run nmap service/version scan on open ports? [y/N]: ${RESET}"
-    read -r ans || true
-    if [[ "${ans:-N}" =~ ^[Yy]$ && -s "$(ports_file)" ]]; then
-      awk -F: '{print $1}' "$(ports_file)" | sort -u > "${WORKDIR}/_scan_hosts.txt"
-      while read -r host; do
-        ports=$(grep "^${host}:" "$(ports_file)" | awk -F: '{print $2}' | paste -sd, -)
-        [[ -n "$ports" ]] && nmap -sV -Pn -p "$ports" "$host" -oN "${WORKDIR}/reports/${host}.nmap.txt" || true
-      done < "${WORKDIR}/_scan_hosts.txt"
-      ok "Nmap reports saved under ${WORKDIR}/reports"
-    fi
+ if have nmap; then
+  echo -en "${YELLOW}Run nmap service/version scan on open ports? [y/N]: ${RESET}"
+  read -r ans || true
+  if [[ "${ans:-N}" =~ ^[Yy]$ && -s "$(ports_file)" ]]; then
+    awk -F: '{print $1}' "$(ports_file)" | sort -u > "${WORKDIR}/_scan_hosts.txt"
+    while read -r host; do
+      ports=$(grep "^${host}:" "$(ports_file)" | awk -F: '{print $2}' | paste -sd, -)
+      [[ -n "$ports" ]] && nmap -sV -Pn -p "$ports" "$host" -oN "${WORKDIR}/reports/${host}.nmap.txt" || true
+    done < "${WORKDIR}/_scan_hosts.txt"
+    ok "Nmap reports saved under ${WORKDIR}/reports"
   fi
+fi
+
 }
 
   
