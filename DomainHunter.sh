@@ -277,22 +277,28 @@ collect_endpoints_and_secrets() {
 
 fast_port_scan() {
   prompt_domain
-  hr; info "Fast TCP scan with naabu (top ports). Optional nmap service probe."
+  hr
+  info "Fast TCP scan with naabu (top ports). Optional nmap service probe."
+
   # Prefer resolved IPs; if missing, resolve now
   if [[ ! -s "$(resolved_file)" ]]; then resolve_subdomains || true; fi
+
   if [[ -s "$(resolved_file)" ]]; then
-    awk '{print $NF}' "$(resolved_file)" | tr ',' '\n' | sed 's/\[\|\]//g' | sort -u > "$(ips_file)"
+    awk '{print $NF}' "$(resolved_file)" | tr ',' '\n' | sed 's/[\[\]]//g' | sort -u > "$(ips_file)"
   fi
+
   if [[ ! -s "$(ips_file)" ]]; then
     warn "No IPs from subdomain resolution; scanning the apex domain directly."
     echo "$input_domain" > "$(ips_file)"
   fi
+
   naabu -list "$(ips_file)" -top-ports 1000 -rate 1000 -silent | tee "$(ports_file)"
   ok "Saved open ports: $(ports_file)"
+
   if have nmap; then
-    echo -en "${YELLOW}Run nmap service/version scan on open ports? [y/N]: ${RESET}"; read -r ans || true
+    echo -en "${YELLOW}Run nmap service/version scan on open ports? [y/N]: ${RESET}"
+    read -r ans || true
     if [[ "${ans:-N}" =~ ^[Yy]$ && -s "$(ports_file)" ]]; then
-      # Build -p list per host (naabu outputs ip:port)
       awk -F: '{print $1}' "$(ports_file)" | sort -u > "${WORKDIR}/_scan_hosts.txt"
       while read -r host; do
         ports=$(grep "^${host}:" "$(ports_file)" | awk -F: '{print $2}' | paste -sd, -)
@@ -302,6 +308,8 @@ fast_port_scan() {
     fi
   fi
 }
+
+  
 
 whois_dns_report() {
   prompt_domain
