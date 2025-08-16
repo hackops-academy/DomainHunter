@@ -41,7 +41,7 @@ _A Fast, Professional Subdomain & Recon Tool for Kali Linux and Termux_
 ## 🔧 Installation
 
 ```bash
-git clone https://github.com/yourusername/DomainHunter.git
+git clone https://github.com/hackops-academy/DomainHunter
 cd DomainHunter
 chmod +x DomainHunter.sh
 ```
