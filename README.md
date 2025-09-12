@@ -48,48 +48,26 @@ pkg update && pkg install -y golang python whois dnsutils jq nmap git
 
 **Starting the tool**
 ```bash
-./DomainHunter.sh
+./DomainHunter.sh (Domain Name)
 ```
 
 ## Menu Options
 
-1. Subdomain Enumeration (subfinder)
+==============================================================
+                 🔥 DomainHunter v2.0 🔥
+        Advanced Reconnaissance Automation Framework
+==============================================================
 
-2. Live HTTP Probing (httpx with status, title, tech)
+Target Domain: 10.1.1.1
 
-3. Screenshots (gowitness/eyewitness)
+ [1] Subdomain Enumeration
+ [2] Port Scanning
+ [3] Directory Bruteforce
+ [4] HTTP Info & Tech Detection
+ [5] Vulnerability Scan
+ [6] Run All
+ [0] Exit
 
-4. Endpoints + Secrets (katana/waybackurls + regex check)
-
-5. Fast Port Scan (naabu → optional targeted nmap -sV)
-
-6. WHOIS & DNS Report (whois + dig)
-
-7. Full Pipeline (1→6)
-
-8. Set/Change Target Domain (To choose the target and starting the tool)
-
-9. Exit
-
-
-## Output Structure 
-
-```bash
-DomainHunter-YYYYMMDD-HHMMSS/
-├─ <domain>.subdomains.txt
-├─ <domain>.resolved.txt
-├─ <domain>.live.txt
-├─ <domain>.endpoints.txt
-├─ <domain>.secrets.txt
-├─ <domain>.ips.txt
-├─ <domain>.ports.txt
-├─ shots/                 # screenshots (if gowitness/eyewitness installed)
-├─ reports/
-│  ├─ <domain>.whois.txt
-│  ├─ <domain>.dns.txt
-│  └─ <host>.nmap.txt     # when nmap service scan is selected
-└─ domainhunter.log       # full session log
-```
 
 
 
