@@ -16,7 +16,7 @@ banner() {
     clear
     echo -e "${BLUE}"
     echo "=============================================================="
-    echo "                 🔥 ReconStrom v2.0 🔥"
+    echo "                 🔥 DomainHunter v2.0 🔥"
     echo "        Advanced Reconnaissance Automation Framework"
     echo "=============================================================="
     echo -e "${RESET}"
@@ -51,7 +51,7 @@ subdomain_enum() {
 
 # Port Scanning
 port_scan() {
-    echo -e "${GREEN}[+] Running Nmap Scan...${RESET}"
+    echo -e "${GREEN}[+] Running Port Scanner...${RESET}"
     check_tool nmap
     nmap -T4 -p- --open -v "$domain" -oN results/ports.txt
     echo -e "${YELLOW}[*] Port scan saved in results/ports.txt${RESET}"
@@ -75,7 +75,7 @@ http_info() {
 
 # Vulnerability Scan (basic)
 vuln_scan() {
-    echo -e "${GREEN}[+] Running Nikto Vulnerability Scan...${RESET}"
+    echo -e "${GREEN}[+] Running  Vulnerability Scanner...${RESET}"
     check_tool nikto
     nikto -h "$domain" | tee results/vuln_scan.txt
     echo -e "${YELLOW}[*] Vulnerabilities saved in results/vuln_scan.txt${RESET}"
