@@ -203,8 +203,8 @@ vuln_scan() {
 menu() { while true; do 
 clear 
 echo -e "${BLUE}==============================================================${RESET}"
-echo -e "${BLUE} 🔥 DomainHunter v2.1 🔥${RESET}" 
-echo -e "${BLUE} Advanced Reconnaissance Automation Framework${RESET}"
+echo -e "${BLUE}                     🔥 DomainHunter v2.1 🔥${RESET}" 
+echo -e "${BLUE}        Advanced Reconnaissance Automation Framework${RESET}"
 echo -e "${BLUE}==============================================================${RESET}"
 echo
         echo " [1] Subdomain Enumeration"
