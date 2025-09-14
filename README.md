@@ -6,23 +6,27 @@ _A Fast, Professional Subdomain & Recon Tool for Kali Linux and Termux_
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen)
 
-> **DomainHunter** automates subdomain discovery, DNS resolution, live host probing, screenshots, endpoint crawling, lightweight secret hunting, port scanning, and WHOIS/DNS reporting — all from a polished TUI menu with logs and a timestamped workspace.
+> **DomainHunter** is a lightweight, maintenance-friendly reconnaissance helper for Kali Linux and Termux.
+It provides a simple TUI (terminal user interface) to run common reconnaissance primitives and save organized, timestamped results per target. DomainHunter is intended as a pragmatic wrapper around commonly-used recon tools — not a replacement for a full pentest suite
 
 ---
 
-## ✨ Features
+## Output Layer
+All artifacts are stored under:
+```bash
+results/<target>_<YYYYMMDD_HHMMSS>/
+```
+Typical files produced (if corresponding tools are installed):
 
-- **Subdomain Enumeration** — Passive + recursive (`subfinder`)  
-- **DNS Resolution** — Resolve to A/AAAA & collect unique IPs (`dnsx`)  
-- **Live Host Probing** — Status codes, titles, tech detection (`httpx`)  
-- **Screenshots** — Web previews of live hosts (`gowitness` / fallback `eyewitness`)  
-- **Endpoints + Secrets** — Crawl (`katana`/`waybackurls`) + regex-based secret hits  
-- **Fast Port Scan** — Top ports with `naabu`, optional targeted `nmap -sV`  
-- **WHOIS & DNS Report** — WHOIS + A/AAAA/NS/MX/TXT/CNAME dig reports  
-- **Full Pipeline Mode** — One option runs everything end-to-end  
-- **Great UX** — Color menu, ASCII banner, safe error handling, detailed logs
+-subdomains.txt — subfinder
 
+-nmap_top1000.txt — nmap summary
 
+-dirs.txt — gobuster results
+
+-whatweb.json or whatweb.txt — whatweb output / curl headers
+
+-nikto.txt — nikto results
 
 ---
 
@@ -36,13 +40,6 @@ cd DomainHunter
 chmod +x DomainHunter.sh
 ```
 
-
-
-**Termux**
-```bash
-pkg update && pkg install -y golang python whois dnsutils jq nmap git
-# then use the Go installs above (ensure $GOPATH/bin is in PATH)
-```
 
 ## Usages
 
