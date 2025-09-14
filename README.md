@@ -53,20 +53,19 @@ pkg update && pkg install -y golang python whois dnsutils jq nmap git
 
 ## Menu Options
 ```bash
-==============================================================
-                 🔥 DomainHunter v2.0 🔥
-        Advanced Reconnaissance Automation Framework
-==============================================================
 
-Target Domain: 10.1.1.1
+        ==============================================================
+                         🔥 DomainHunter v2.1 🔥
+            Advanced Reconnaissance Automation Framework
+        ==============================================================
 
- [1] Subdomain Enumeration
- [2] Port Scanning
- [3] Directory Bruteforce
- [4] HTTP Info & Tech Detection
- [5] Vulnerability Scan
- [6] Run All
- [0] Exit
+         [1] Subdomain Enumeration"
+         [2] Port Scanning"
+         [3] Directory Bruteforce"
+         [4] HTTP Info & Tech Detection"
+         [5] Vulnerability Scan "
+         [6] Run All (recommended)"
+         [0] Exit"
 ```
 
 
