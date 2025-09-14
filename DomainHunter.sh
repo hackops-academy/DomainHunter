@@ -206,7 +206,7 @@ menu() {
         echo " [2] Port Scanning"
         echo " [3] Directory Bruteforce"
         echo " [4] HTTP Info & Tech Detection"
-        echo " [5] Vulnerability Scan (Nikto)"
+        echo " [5] Vulnerability Scan "
         echo " [6] Run All (recommended)"
         echo " [0] Exit"
         echo
