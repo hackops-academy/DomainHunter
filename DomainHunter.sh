@@ -200,12 +200,13 @@ vuln_scan() {
 }
 
 #----------------- MENU -----------------
-menu() {
-    while true; do
-        clear
-        echo -e "${BLUE}================= DomainHunter v2.2 =================${RESET}"
-        echo -e "${YELLOW}Target: ${GREEN}$DOMAIN${RESET}"
-        echo
+menu() { while true; do 
+clear 
+echo -e "${BLUE}==============================================================${RESET}"
+echo -e "${BLUE} 🔥 DomainHunter v2.1 🔥${RESET}" 
+echo -e "${BLUE} Advanced Reconnaissance Automation Framework${RESET}"
+echo -e "${BLUE}==============================================================${RESET}"
+echo
         echo " [1] Subdomain Enumeration"
         echo " [2] Port Scanning"
         echo " [3] Directory Bruteforce"
