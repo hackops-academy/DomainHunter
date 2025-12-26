@@ -51,18 +51,24 @@ chmod +x DomainHunter.sh
 ## Menu Options
 ```bash
 
-        ==============================================================
-                         🔥 DomainHunter v2.1 🔥
-            Advanced Reconnaissance Automation Framework
-        ==============================================================
 
-         [1] Subdomain Enumeration
-         [2] Port Scanning
-         [3] Directory Bruteforce
-         [4] HTTP Info & Tech Detection
-         [5] Vulnerability Scan 
-         [6] Run All (recommended)
-         [0] Exit
+ ________                        .__         ___ ___               __
+\______ \   ____   _____ _____  |__| ____  /   |   \ __ __  _____/  |_  ___________
+ |    |  \ /  _ \ /     \\__  \ |  |/    \/    ~    \  |  \/    \   __\/ __ \_  __ \
+ |    `   (  <_> )  Y Y  \/ __ \|  |   |  \    Y    /  |  /   |  \  | \  ___/|  | \/
+/_______  /\____/|__|_|  (____  /__|___|  /\___|_  /|____/|___|  /__|  \___  >__|
+        \/             \/     \/        \/       \/            \/          \/
+  >> Environment: Termux (Mobile)
+  >> Target: target.com
+---------------------------------------------------------------
+  [1] Full Recon Scan (All Tools)
+  [2] Subdomain Enumeration Only
+  [3] Port Scan (Nmap)
+  [4] Directory Bruteforce
+  [I] Install/Update Dependencies
+  [0] Exit
+---------------------------------------------------------------
+Selection >
 ```
 
 
