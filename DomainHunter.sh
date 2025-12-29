@@ -41,6 +41,8 @@ draw_banner() {
  |    `   (  <_> )  Y Y  \/ __ \|  |   |  \    Y    /  |  /   |  \  | \  ___/|  | \/
 /_______  /\____/|__|_|  (____  /__|___|  /\___|_  /|____/|___|  /__|  \___  >__|   
         \/             \/     \/        \/       \/            \/          \/        
+
+     Made by Hackops Academy | _hack_ops_
 EOF
     echo -e "${BLUE}  >> Environment: $([ "$IS_TERMUX" = true ] && echo "Termux (Mobile)" || echo "Linux (Kali/PC)")"
     echo -e "  >> Target: ${WHITE}${DOMAIN:-"None"}${NC}"
