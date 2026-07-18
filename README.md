@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/domainhunter_banner.png" alt="DomainHunter, made by HackOps Academy" width="100%">
+</p>
+
 # 🌐 DomainHunter
 _A Fast, Professional Subdomain & Recon Tool for Kali Linux and Termux_
 
